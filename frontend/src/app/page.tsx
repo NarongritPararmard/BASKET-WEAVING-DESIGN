@@ -1,0 +1,68 @@
+"use client";
+
+import { useRouter } from 'next/navigation';
+import { usePatternStore } from '../store/patternStore';
+import PatternGrid from '../components/Grid/PatternGrid';
+import AxisSelector from '../components/Controls/AxisSelector';
+import RowSelector from '../components/Controls/RowSelector';
+
+export default function Home() {
+  const { setWeavingMode } = usePatternStore();
+  const router = useRouter();
+
+  const handleStartWeaving = () => {
+    setWeavingMode(true);
+    router.push('/weave');
+  };
+
+  return (
+    <main className="min-h-screen p-8 max-w-6xl mx-auto">
+      <header className="mb-12 text-center">
+        <h1 className="text-5xl font-extrabold mb-4 bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+          Basket Pattern Designer
+        </h1>
+        <p className="text-slate-400 text-lg">
+          Design your weaving pattern below. Click cells to toggle.
+          The center axis (C) helps define the weaving logic.
+        </p>
+      </header>
+
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
+        <aside className="lg:col-span-1 space-y-6">
+          <div className="p-6 bg-slate-900/50 rounded-2xl border border-slate-800 shadow-xl">
+            <h2 className="text-sm font-bold text-slate-500 uppercase tracking-widest mb-6">Configuration</h2>
+            <AxisSelector />
+            <div className="h-4" />
+            <RowSelector />
+          </div>
+
+          <div className="p-6 bg-indigo-500/5 rounded-2xl border border-indigo-500/10">
+            <h3 className="text-indigo-400 font-bold mb-2">How it works</h3>
+            <ul className="text-sm text-slate-400 space-y-2 list-disc pl-4">
+              <li>Columns represent vertical stakes.</li>
+              <li>Rows represent weaving rounds (bottom to top).</li>
+              <li>Colored cells mean the strip passes in front.</li>
+            </ul>
+          </div>
+        </aside>
+
+        <section className="lg:col-span-3 space-y-8">
+          <PatternGrid />
+
+          <div className="flex justify-end">
+            <button
+              onClick={handleStartWeaving}
+              className="group relative px-12 py-4 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-2xl transition-all duration-300 shadow-[0_0_20px_rgba(79,70,229,0.3)] hover:shadow-[0_0_30px_rgba(79,70,229,0.5)] hover:-translate-y-1 overflow-hidden"
+            >
+              <span className="relative z-10 flex items-center gap-2 text-xl">
+                Confirm Pattern & Start Weaving
+                <span className="group-hover:translate-x-1 transition-transform">→</span>
+              </span>
+              <div className="absolute inset-0 bg-gradient-to-r from-indigo-400 to-purple-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            </button>
+          </div>
+        </section>
+      </div>
+    </main>
+  );
+}
