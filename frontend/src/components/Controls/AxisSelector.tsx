@@ -7,7 +7,7 @@ export default function AxisSelector() {
 
     return (
         <div className="flex flex-col gap-2 p-4 bg-slate-800 rounded-lg border border-slate-700">
-            <label className="text-sm font-medium text-slate-300">Vertical Axes (Stakes)</label>
+            <label className="text-sm font-medium text-slate-300">จำนวนแกนตั้ง (ซี่เบญจพรรณ)</label>
             <div className="flex items-center gap-4">
                 <input
                     type="range"

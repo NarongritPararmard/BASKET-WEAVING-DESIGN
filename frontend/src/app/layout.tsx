@@ -7,9 +7,10 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const jetbrains = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono" });
 
 export const metadata: Metadata = {
-  title: "Basket Weaver - Pattern Design & Weaving Assistant",
-  description: "A professional tool for basket weavers to design patterns and follow step-by-step instructions in real-life weaving.",
+  title: "ระบบออกแบบและช่วยสานตะกร้า - สำหรับนักเรียนชั้น ม.5",
+  description: "เครื่องมือช่วยออกแบบลวดลายและแสดงขั้นตอนการสานตะกร้าแบบละเอียด เข้าใจง่าย สำหรับการเรียนการสอนวิชาศิลปหัตถกรรม",
 };
+
 
 export default function RootLayout({
   children,

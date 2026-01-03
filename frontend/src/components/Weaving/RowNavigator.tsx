@@ -22,8 +22,6 @@ export default function RowNavigator() {
 
     const handleFinish = () => {
         setRowStatus(state.currentRow, 'completed');
-        // In a real app, we might navigate to a "Finish" page or show a modal.
-        // For now, let's just go back to design mode.
         setWeavingMode(false);
         router.push('/');
     };
@@ -37,13 +35,13 @@ export default function RowNavigator() {
                 disabled={state.currentRow === 0}
                 className="px-6 py-3 rounded-lg font-bold transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed bg-slate-700 hover:bg-slate-600 text-slate-200"
             >
-                ← Previous Round
+                ← ย้อนกลับ
             </button>
 
             <div className="flex flex-col items-center">
-                <span className="text-xs text-slate-500 uppercase tracking-tighter">Progress</span>
+                <span className="text-xs text-slate-500 uppercase tracking-tighter">ความคืบหน้า</span>
                 <span className="text-lg font-mono font-bold text-slate-300">
-                    {state.currentRow + 1} / {state.numRows}
+                    รอบที่ {state.currentRow + 1} / {state.numRows}
                 </span>
             </div>
 
@@ -52,14 +50,14 @@ export default function RowNavigator() {
                     onClick={handleFinish}
                     className="px-8 py-3 rounded-lg font-bold bg-gradient-to-r from-amber-500 to-orange-500 hover:scale-105 active:scale-95 transition-all text-white shadow-lg shadow-orange-500/20"
                 >
-                    Finish Basket 🎉
+                    เสร็จสิ้นการสาน 🎉
                 </button>
             ) : (
                 <button
                     onClick={handleNext}
                     className="px-8 py-3 rounded-lg font-bold bg-gradient-to-r from-indigo-500 to-violet-500 hover:scale-105 active:scale-95 transition-all text-white shadow-lg shadow-indigo-500/20"
                 >
-                    Next Round →
+                    ขั้นตอนถัดไป →
                 </button>
             )}
         </div>

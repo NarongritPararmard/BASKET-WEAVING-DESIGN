@@ -22,17 +22,14 @@ export function generateRowInstructions(row: boolean[]): RowInstructions {
     let rightStart = centerAxis + 1;
 
     if (centerRange) {
-        initialization = `Insert strip before axis ${centerRange.start + 1} and exit after axis ${centerRange.end + 1}.`;
+        initialization = `สอดเส้นสานผ่านหน้าแกนตั้งที่ ${centerRange.start + 1} และออกหลังแกนตั้งที่ ${centerRange.end + 1}`;
         leftStart = centerRange.start - 1;
         rightStart = centerRange.end + 1;
     } else {
-        initialization = `Start strip from inside the basket.`;
-        // If no center range, we might need more specific logic from the user, 
-        // but follow the context: "the strip exits after the left colored axis and re-enters before the right colored axis."
-        // This implies there's a range to "exit and re-enter".
+        initialization = `เริ่มสานจากด้านในตะกร้า`;
         const nearestRange = findNearestRange(ranges, centerAxis);
         if (nearestRange) {
-            initialization += ` Exit after axis ${nearestRange.start + 1} and re-enter before axis ${nearestRange.end + 1}.`;
+            initialization += ` ออกหลังแกนที่ ${nearestRange.start + 1} และสอดเข้าหน้าแกนที่ ${nearestRange.end + 1}`;
         }
     }
 

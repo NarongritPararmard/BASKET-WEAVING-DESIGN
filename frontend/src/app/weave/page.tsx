@@ -12,7 +12,6 @@ export default function WeavePage() {
     const router = useRouter();
 
     useEffect(() => {
-        // If we're not in weaving mode, redirect back to design
         if (!state.isWeavingMode) {
             router.push('/');
         }
@@ -25,14 +24,14 @@ export default function WeavePage() {
             <header className="flex items-center justify-between">
                 <div>
                     <h1 className="text-4xl font-black tracking-tight text-white mb-1">
-                        Weaving Assistant
+                        ระบบช่วยสาน (โหมดการสานจริง)
                     </h1>
-                    <p className="text-slate-500 font-medium">Follow the instructions for each round carefully.</p>
+                    <p className="text-slate-500 font-medium">ทำตามขั้นตอนการสานในแต่ละรอบอย่างระมัดระวัง</p>
                 </div>
 
                 <div className="flex items-center gap-6">
                     <div className="text-right">
-                        <span className="block text-xs font-bold text-slate-600 uppercase tracking-widest">Active Round</span>
+                        <span className="block text-xs font-bold text-slate-600 uppercase tracking-widest">รอบที่กำลังดำเนินการ</span>
                         <span className="text-3xl font-black text-indigo-500">{state.currentRow + 1}</span>
                     </div>
                     <div className="w-12 h-12 rounded-full border-2 border-slate-800 flex items-center justify-center">
@@ -48,12 +47,12 @@ export default function WeavePage() {
                 {/* Left Side: Grid Preview */}
                 <div className="xl:col-span-5 space-y-6">
                     <div className="sticky top-8">
-                        <h2 className="text-sm font-bold text-slate-500 uppercase tracking-widest mb-4">Grid Progress</h2>
+                        <h2 className="text-sm font-bold text-slate-500 uppercase tracking-widest mb-4">สถานะลวดลาย</h2>
                         <div className="scale-90 origin-top-left overflow-visible">
                             <PatternGrid />
                         </div>
                         <div className="mt-4 p-4 bg-slate-900/30 rounded-xl border border-slate-800 text-xs text-slate-500">
-                            <p>The highlighted row shows your current progress. You can tap any row on the grid to jump back/forward if needed.</p>
+                            <p>แถวที่เน้นสีเหลืองคือรอบที่คุณอยู่ตอนนี้ คุณสามารถคลิกเลือกแถวอื่นเพื่อข้ามไปยังรอบที่ต้องการได้</p>
                         </div>
                     </div>
                 </div>
@@ -67,18 +66,18 @@ export default function WeavePage() {
                         <div className="flex-1 p-6 bg-emerald-500/5 rounded-2xl border border-emerald-500/10">
                             <h3 className="text-emerald-400 font-bold mb-2 flex items-center gap-2">
                                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                Tip
+                                คำแนะนำ
                             </h3>
                             <p className="text-sm text-slate-400">
-                                Ensure the strip length is sufficient before starting a new round. The left and right side lengths should be balanced relative to the center.
+                                ตรวจสอบความยาวของตอกสานให้เพียงพอก่อนเริ่มรอบใหม่ ควรแบ่งจุดศูนย์กลางให้สมดุลทั้งด้านซ้ายและขวา
                             </p>
                         </div>
                         <div className="flex-1 p-6 bg-slate-800/20 rounded-2xl border border-slate-700/30">
                             <h3 className="text-slate-400 font-bold mb-2 flex items-center gap-2">
-                                Manual Correction
+                                การแก้ไขข้อผิดพลาด
                             </h3>
                             <p className="text-sm text-slate-500">
-                                Mistake? Simply go back to the previous round or click any row on the grid to recalibrate your position.
+                                หากสารผิดพลาด? สามารถกด "ย้อนกลับ" หรือคลิกแถวในตารางเพื่อเปลี่ยนตำแหน่งการสานให้ถูกต้อง
                             </p>
                         </div>
                     </div>
