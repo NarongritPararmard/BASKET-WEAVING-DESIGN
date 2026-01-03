@@ -9,12 +9,36 @@ export interface RowInstructions {
     initialization: string;
     leftSide: InstructionStep[];
     rightSide: InstructionStep[];
+    isEmpty: boolean;
+}
+
+/**
+ * Helper to get the display label of an axis.
+ * Labels count outwards from the center axis (C).
+ */
+export function getAxisLabel(index: number, centerAxis: number): string {
+    if (index === centerAxis) return 'C';
+    if (index < centerAxis) {
+        return `ซ้ายที่ ${centerAxis - index}`;
+    } else {
+        return `ขวาที่ ${index - centerAxis}`;
+    }
 }
 
 export function generateRowInstructions(row: boolean[]): RowInstructions {
     const numAxes = row.length;
     const centerAxis = getCenterAxis(numAxes);
     const ranges = getColoredRanges(row);
+
+    if (ranges.length === 0) {
+        return {
+            initialization: "รอบนี้ไม่ได้เลือกเครื่องหมาย (ไม่มีการสานทับแกนตั้ง)",
+            leftSide: [],
+            rightSide: [],
+            isEmpty: true
+        };
+    }
+
     const centerRange = ranges.find(r => centerAxis >= r.start && centerAxis <= r.end);
 
     let initialization = '';
@@ -22,14 +46,26 @@ export function generateRowInstructions(row: boolean[]): RowInstructions {
     let rightStart = centerAxis + 1;
 
     if (centerRange) {
-        initialization = `สอดเส้นสานผ่านหน้าแกนตั้งที่ ${centerRange.start + 1} และออกหลังแกนตั้งที่ ${centerRange.end + 1}`;
+        initialization = `สอดเส้นสานผ่านหน้าแกน ${getAxisLabel(centerRange.start, centerAxis)} และออกหลังแกน ${getAxisLabel(centerRange.end, centerAxis)}`;
         leftStart = centerRange.start - 1;
         rightStart = centerRange.end + 1;
     } else {
         initialization = `เริ่มสานจากด้านในตะกร้า`;
-        const nearestRange = findNearestRange(ranges, centerAxis);
-        if (nearestRange) {
-            initialization += ` ออกหลังแกนที่ ${nearestRange.start + 1} และสอดเข้าหน้าแกนที่ ${nearestRange.end + 1}`;
+
+        // Find ranges neighboring the center gap
+        const leftOfCenter = ranges.filter(r => r.end < centerAxis).sort((a, b) => b.end - a.end)[0];
+        const rightOfCenter = ranges.filter(r => r.start > centerAxis).sort((a, b) => a.start - b.start)[0];
+
+        if (leftOfCenter && rightOfCenter) {
+            initialization += ` ออกหลังแกน ${getAxisLabel(leftOfCenter.end, centerAxis)} และออกหน้าแกน ${getAxisLabel(rightOfCenter.start, centerAxis)}`;
+            leftStart = leftOfCenter.end;
+            rightStart = rightOfCenter.start;
+        } else if (leftOfCenter) {
+            initialization += ` ออกหลังแกน ${getAxisLabel(leftOfCenter.end, centerAxis)}`;
+            leftStart = leftOfCenter.end;
+        } else if (rightOfCenter) {
+            initialization += ` ออกหน้าแกน ${getAxisLabel(rightOfCenter.start, centerAxis)}`;
+            rightStart = rightOfCenter.start;
         }
     }
 
@@ -39,17 +75,9 @@ export function generateRowInstructions(row: boolean[]): RowInstructions {
     return {
         initialization,
         leftSide,
-        rightSide
+        rightSide,
+        isEmpty: false
     };
-}
-
-function findNearestRange(ranges: WeavingRange[], center: number): WeavingRange | null {
-    if (ranges.length === 0) return null;
-    return ranges.reduce((prev, curr) => {
-        const prevDist = Math.min(Math.abs(prev.start - center), Math.abs(prev.end - center));
-        const currDist = Math.min(Math.abs(curr.start - center), Math.abs(curr.end - center));
-        return currDist < prevDist ? curr : prev;
-    });
 }
 
 function generateSideInstructions(

@@ -21,6 +21,20 @@ export default function InstructionPanel() {
         }
     };
 
+    if (instructions.isEmpty) {
+        return (
+            <div className="flex flex-col gap-6 p-6 bg-slate-900/50 backdrop-blur-xl rounded-2xl border border-slate-700 shadow-xl min-h-[400px] items-center justify-center text-center">
+                <div className="w-16 h-16 bg-slate-800 rounded-full flex items-center justify-center mb-4 border border-slate-700">
+                    <svg className="w-8 h-8 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                </div>
+                <h2 className="text-xl font-bold text-slate-400 mb-2">รอบที่ {state.currentRow + 1} ไม่มีการสาน</h2>
+                <p className="text-slate-500 max-w-sm">
+                    คุณไม่ได้กำหนดลวดลาย (ไม่ได้ระบายสี) สำหรับรอบนี้ หากนี่เป็นความตั้งใจ คุณสามารถเลื่อนผ่านไปยังรอบถัดไปได้ทันที
+                </p>
+            </div>
+        );
+    }
+
     return (
         <div className="flex flex-col gap-6 p-6 bg-slate-900/50 backdrop-blur-xl rounded-2xl border border-slate-700 shadow-xl">
             <div className="flex items-center justify-between border-b border-slate-700 pb-4">
@@ -28,8 +42,8 @@ export default function InstructionPanel() {
                     คำแนะนำการสานรอบที่ {state.currentRow + 1}
                 </h2>
                 <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${state.rowStatuses[state.currentRow] === 'completed' ? 'bg-emerald-500/20 text-emerald-400' :
-                        state.rowStatuses[state.currentRow] === 'in-progress' ? 'bg-amber-500/20 text-amber-400' :
-                            'bg-slate-700 text-slate-400'
+                    state.rowStatuses[state.currentRow] === 'in-progress' ? 'bg-amber-500/20 text-amber-400' :
+                        'bg-slate-700 text-slate-400'
                     }`}>
                     {getStatusThai(state.rowStatuses[state.currentRow])}
                 </span>
