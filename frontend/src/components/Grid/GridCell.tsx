@@ -4,14 +4,16 @@ interface GridCellProps {
     active: boolean;
     highlighted: boolean;
     onClick: () => void;
+    onContextMenu?: (e: React.MouseEvent) => void;
     rowLabel?: string;
     color?: string;
 }
 
-export default function GridCell({ active, highlighted, onClick, rowLabel, color = '#6366F1' }: GridCellProps) {
+export default function GridCell({ active, highlighted, onClick, onContextMenu, rowLabel, color = '#6366F1' }: GridCellProps) {
     return (
         <div
             onClick={onClick}
+            onContextMenu={onContextMenu}
             className={`
         relative w-10 h-10 border border-slate-700 cursor-pointer transition-all duration-200
         flex items-center justify-center

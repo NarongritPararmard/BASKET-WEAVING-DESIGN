@@ -6,7 +6,7 @@ import GridCell from './GridCell';
 import GridHeader from './GridHeader';
 
 export default function PatternGrid() {
-    const { state, toggleCell, setCurrentRow } = usePatternStore();
+    const { state, toggleCell, setCurrentRow, clearCell } = usePatternStore();
     const centerAxis = getCenterAxis(state.numAxes);
 
     return (
@@ -19,17 +19,23 @@ export default function PatternGrid() {
                         <span className="w-8 -ml-10 flex items-center justify-end pr-2 text-xs text-slate-500 font-mono">
                             R{rowIndex + 1}
                         </span>
-                        {row.map((active, colIndex) => (
+                        {row.map((cellColor, colIndex) => (
                             <GridCell
                                 key={colIndex}
-                                active={active}
+                                active={!!cellColor}
                                 highlighted={state.isWeavingMode && state.currentRow === rowIndex}
-                                color={state.cellColor}
+                                color={cellColor || undefined}
                                 onClick={() => {
                                     if (state.isWeavingMode) {
                                         setCurrentRow(rowIndex);
                                     } else {
                                         toggleCell(rowIndex, colIndex);
+                                    }
+                                }}
+                                onContextMenu={(e) => {
+                                    e.preventDefault();
+                                    if (!state.isWeavingMode) {
+                                        clearCell(rowIndex, colIndex);
                                     }
                                 }}
                             />

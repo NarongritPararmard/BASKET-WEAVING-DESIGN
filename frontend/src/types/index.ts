@@ -3,11 +3,12 @@ export type RowStatus = 'not-started' | 'in-progress' | 'completed' | 'reworked'
 export interface PatternState {
   numAxes: number;
   numRows: number;
-  grid: boolean[][]; // [row][column]
+  grid: (string | null)[][]; // [row][column] - null for empty, string for color
   rowStatuses: RowStatus[];
   currentRow: number;
   isWeavingMode: boolean;
-  cellColor: string;
+  selectedColor: string;
+  colorHistory: string[];
 }
 
 export interface WeavingInstruction {

@@ -5,8 +5,8 @@
 /**
  * Creates an empty grid of the given size.
  */
-export function createEmptyGrid(rows: number, cols: number): boolean[][] {
-    return Array(rows).fill(null).map(() => Array(cols).fill(false));
+export function createEmptyGrid(rows: number, cols: number): (string | null)[][] {
+    return Array(rows).fill(null).map(() => Array(cols).fill(null));
 }
 
 /**

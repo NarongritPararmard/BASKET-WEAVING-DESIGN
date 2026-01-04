@@ -9,10 +9,13 @@ interface PatternContextType {
     setNumAxes: (num: number) => void;
     setNumRows: (num: number) => void;
     toggleCell: (row: number, col: number) => void;
+    setCellColor: (row: number, col: number, color: string) => void;
+    clearCell: (row: number, col: number) => void;
     setRowStatus: (row: number, status: RowStatus) => void;
     setCurrentRow: (row: number) => void;
     setWeavingMode: (enabled: boolean) => void;
-    setCellColor: (color: string) => void;
+    setSelectedColor: (color: string) => void;
+    addToColorHistory: (color: string) => void;
 }
 
 const PatternContext = createContext<PatternContextType | undefined>(undefined);
@@ -28,7 +31,8 @@ export function PatternProvider({ children }: { children: ReactNode }) {
         rowStatuses: Array(DEFAULT_ROWS).fill('not-started'),
         currentRow: 0,
         isWeavingMode: false,
-        cellColor: '#6366F1',
+        selectedColor: '#6366F1',
+        colorHistory: ['#6366F1'],
     });
 
     const setNumAxes = (num: number) => {
@@ -36,7 +40,7 @@ export function PatternProvider({ children }: { children: ReactNode }) {
             const newGrid = prev.grid.map(row => {
                 const newRow = [...row];
                 if (num > row.length) {
-                    while (newRow.length < num) newRow.push(false);
+                    while (newRow.length < num) newRow.push(null);
                 } else {
                     newRow.length = num;
                 }
@@ -52,7 +56,7 @@ export function PatternProvider({ children }: { children: ReactNode }) {
             let newStatuses = [...prev.rowStatuses];
             if (num > prev.grid.length) {
                 while (newGrid.length < num) {
-                    newGrid.push(Array(prev.numAxes).fill(false));
+                    newGrid.push(Array(prev.numAxes).fill(null));
                     newStatuses.push('not-started');
                 }
             } else {
@@ -67,7 +71,25 @@ export function PatternProvider({ children }: { children: ReactNode }) {
         setState(prev => {
             const newGrid = [...prev.grid];
             newGrid[row] = [...newGrid[row]];
-            newGrid[row][col] = !newGrid[row][col];
+            newGrid[row][col] = newGrid[row][col] ? null : prev.selectedColor;
+            return { ...prev, grid: newGrid };
+        });
+    };
+
+    const setCellColor = (row: number, col: number, color: string) => {
+        setState(prev => {
+            const newGrid = [...prev.grid];
+            newGrid[row] = [...newGrid[row]];
+            newGrid[row][col] = color;
+            return { ...prev, grid: newGrid };
+        });
+    };
+
+    const clearCell = (row: number, col: number) => {
+        setState(prev => {
+            const newGrid = [...prev.grid];
+            newGrid[row] = [...newGrid[row]];
+            newGrid[row][col] = null;
             return { ...prev, grid: newGrid };
         });
     };
@@ -88,8 +110,17 @@ export function PatternProvider({ children }: { children: ReactNode }) {
         setState(prev => ({ ...prev, isWeavingMode: enabled }));
     };
 
-    const setCellColor = (color: string) => {
-        setState(prev => ({ ...prev, cellColor: color }));
+    const setSelectedColor = (color: string) => {
+        setState(prev => ({ ...prev, selectedColor: color }));
+    };
+
+    const addToColorHistory = (color: string) => {
+        setState(prev => {
+            const newHistory = prev.colorHistory.includes(color) 
+                ? prev.colorHistory 
+                : [...prev.colorHistory.slice(-9), color];
+            return { ...prev, colorHistory: newHistory };
+        });
     };
 
     return (
@@ -98,10 +129,13 @@ export function PatternProvider({ children }: { children: ReactNode }) {
             setNumAxes,
             setNumRows,
             toggleCell,
+            setCellColor,
+            clearCell,
             setRowStatus,
             setCurrentRow,
             setWeavingMode,
-            setCellColor
+            setSelectedColor,
+            addToColorHistory
         }}>
             {children}
         </PatternContext.Provider>
