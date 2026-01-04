@@ -5,6 +5,7 @@ import { usePatternStore } from '../store/patternStore';
 import PatternGrid from '../components/Grid/PatternGrid';
 import AxisSelector from '../components/Controls/AxisSelector';
 import RowSelector from '../components/Controls/RowSelector';
+import ColorPicker from '../components/Controls/ColorPicker';
 
 export default function Home() {
   const { setWeavingMode } = usePatternStore();
@@ -34,6 +35,8 @@ export default function Home() {
             <AxisSelector />
             <div className="h-4" />
             <RowSelector />
+            <div className="h-4" />
+            <ColorPicker />
           </div>
 
           <div className="p-6 bg-indigo-500/5 rounded-2xl border border-indigo-500/10">

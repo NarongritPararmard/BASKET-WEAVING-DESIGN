@@ -24,6 +24,7 @@ export default function PatternGrid() {
                                 key={colIndex}
                                 active={active}
                                 highlighted={state.isWeavingMode && state.currentRow === rowIndex}
+                                color={state.cellColor}
                                 onClick={() => {
                                     if (state.isWeavingMode) {
                                         setCurrentRow(rowIndex);

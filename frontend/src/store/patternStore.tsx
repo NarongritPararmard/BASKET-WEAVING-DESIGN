@@ -12,6 +12,7 @@ interface PatternContextType {
     setRowStatus: (row: number, status: RowStatus) => void;
     setCurrentRow: (row: number) => void;
     setWeavingMode: (enabled: boolean) => void;
+    setCellColor: (color: string) => void;
 }
 
 const PatternContext = createContext<PatternContextType | undefined>(undefined);
@@ -27,6 +28,7 @@ export function PatternProvider({ children }: { children: ReactNode }) {
         rowStatuses: Array(DEFAULT_ROWS).fill('not-started'),
         currentRow: 0,
         isWeavingMode: false,
+        cellColor: '#6366F1',
     });
 
     const setNumAxes = (num: number) => {
@@ -86,6 +88,10 @@ export function PatternProvider({ children }: { children: ReactNode }) {
         setState(prev => ({ ...prev, isWeavingMode: enabled }));
     };
 
+    const setCellColor = (color: string) => {
+        setState(prev => ({ ...prev, cellColor: color }));
+    };
+
     return (
         <PatternContext.Provider value={{
             state,
@@ -94,7 +100,8 @@ export function PatternProvider({ children }: { children: ReactNode }) {
             toggleCell,
             setRowStatus,
             setCurrentRow,
-            setWeavingMode
+            setWeavingMode,
+            setCellColor
         }}>
             {children}
         </PatternContext.Provider>
