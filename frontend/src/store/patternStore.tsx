@@ -16,8 +16,8 @@ interface PatternContextType {
 
 const PatternContext = createContext<PatternContextType | undefined>(undefined);
 
-const DEFAULT_AXES = 12;
-const DEFAULT_ROWS = 8;
+const DEFAULT_AXES = 48;
+const DEFAULT_ROWS = 20;
 
 export function PatternProvider({ children }: { children: ReactNode }) {
     const [state, setState] = useState<PatternState>({

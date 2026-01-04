@@ -5,6 +5,8 @@ import { usePatternStore } from '../store/patternStore';
 import PatternGrid from '../components/Grid/PatternGrid';
 import AxisSelector from '../components/Controls/AxisSelector';
 import RowSelector from '../components/Controls/RowSelector';
+import BasketScene from '../components/Visualizer/BasketScene';
+
 
 export default function Home() {
   const { setWeavingMode } = usePatternStore();
@@ -16,7 +18,7 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen p-8 max-w-6xl mx-auto">
+    <main className="min-h-screen p-8 max-w-[1600px] mx-auto">
       <header className="mb-12 text-center">
         <h1 className="text-5xl font-extrabold mb-4 bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
           ระบบออกแบบและช่วยสานตะกร้า
@@ -27,16 +29,17 @@ export default function Home() {
         </p>
       </header>
 
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
-        <aside className="lg:col-span-1 space-y-6">
-          <div className="p-6 bg-slate-900/50 rounded-2xl border border-slate-800 shadow-xl">
+      <div className="flex flex-col lg:flex-row gap-8 items-start">
+        {/* Settings Sidebar */}
+        <aside className="w-full lg:w-[320px] shrink-0 space-y-6">
+          <div className="p-6 bg-slate-900/50 rounded-3xl border border-slate-800 shadow-xl">
             <h2 className="text-sm font-bold text-slate-500 uppercase tracking-widest mb-6">ตั้งค่าโครงสร้าง</h2>
             <AxisSelector />
             <div className="h-4" />
             <RowSelector />
           </div>
 
-          <div className="p-6 bg-indigo-500/5 rounded-2xl border border-indigo-500/10">
+          <div className="p-6 bg-indigo-500/5 rounded-3xl border border-indigo-500/10">
             <h3 className="text-indigo-400 font-bold mb-2">วิธีการใช้งาน</h3>
             <ul className="text-sm text-slate-400 space-y-2 list-disc pl-4">
               <li>คอลัมน์คือแกนแนวตั้ง (ตอกยืน)</li>
@@ -46,10 +49,21 @@ export default function Home() {
           </div>
         </aside>
 
-        <section className="lg:col-span-3 space-y-8">
-          <PatternGrid />
+        {/* Design Area */}
+        <section className="flex-1 min-w-0 space-y-8">
+          <div className="flex flex-col xl:flex-row gap-8 items-start">
+            <div className="flex flex-col gap-4 flex-1 min-w-0">
+              <h2 className="text-sm font-bold text-slate-500 uppercase tracking-widest">ผังลวดลาย (2D)</h2>
+              <PatternGrid />
+            </div>
 
-          <div className="flex justify-end">
+            <div className="flex flex-col gap-4 w-full xl:w-[450px] shrink-0">
+              <h2 className="text-sm font-bold text-slate-500 uppercase tracking-widest">ตัวอย่างรูปทรง (3D)</h2>
+              <BasketScene />
+            </div>
+          </div>
+
+          <div className="flex justify-end pt-4">
             <button
               onClick={handleStartWeaving}
               className="group relative px-12 py-4 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-2xl transition-all duration-300 shadow-[0_0_20px_rgba(79,70,229,0.3)] hover:shadow-[0_0_30px_rgba(79,70,229,0.5)] hover:-translate-y-1 overflow-hidden"

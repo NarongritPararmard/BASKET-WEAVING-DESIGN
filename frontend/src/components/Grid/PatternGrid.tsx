@@ -9,8 +9,20 @@ export default function PatternGrid() {
     const { state, toggleCell, setCurrentRow } = usePatternStore();
     const centerAxis = getCenterAxis(state.numAxes);
 
+    const containerWidth = state.numAxes * 32 + 80; // เปลี่ยน 40 เป็น 32 หากใช้ w-8
+
     return (
-        <div className="flex flex-col items-start overflow-auto p-4 bg-slate-900 rounded-xl border border-slate-700 shadow-2xl">
+        <div
+            className="h-fit flex flex-col items-start overflow-auto p-4 bg-slate-900 rounded-3xl border border-slate-700 shadow-2xl transition-all duration-300"
+            style={{
+                maxHeight: `${Math.max(400, state.numRows * 45 + 100)}px`,
+                width: `${Math.min(1200, containerWidth)}px`,
+                maxWidth: '100%'
+            }}
+        >
+
+
+
             <GridHeader numAxes={state.numAxes} centerAxis={centerAxis} />
 
             <div className="flex flex-col-reverse gap-0 ml-10">
