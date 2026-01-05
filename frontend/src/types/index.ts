@@ -7,6 +7,7 @@ export interface PatternState {
   rowStatuses: RowStatus[];
   currentRow: number;
   isWeavingMode: boolean;
+  gridZoom: number;
 }
 
 export interface WeavingInstruction {

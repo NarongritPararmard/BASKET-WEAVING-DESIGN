@@ -13,6 +13,7 @@ interface PatternContextType {
     setCurrentRow: (row: number) => void;
     setWeavingMode: (enabled: boolean) => void;
     resetGrid: () => void;
+    setGridZoom: (zoom: number) => void;
 }
 
 const PatternContext = createContext<PatternContextType | undefined>(undefined);
@@ -28,6 +29,7 @@ export function PatternProvider({ children }: { children: ReactNode }) {
         rowStatuses: Array(DEFAULT_ROWS).fill('not-started'),
         currentRow: 0,
         isWeavingMode: false,
+        gridZoom: 1.0,
     });
 
     const setNumAxes = (num: number) => {
@@ -94,6 +96,10 @@ export function PatternProvider({ children }: { children: ReactNode }) {
         }));
     };
 
+    const setGridZoom = (zoom: number) => {
+        setState(prev => ({ ...prev, gridZoom: zoom }));
+    };
+
     return (
         <PatternContext.Provider value={{
             state,
@@ -103,7 +109,8 @@ export function PatternProvider({ children }: { children: ReactNode }) {
             setRowStatus,
             setCurrentRow,
             setWeavingMode,
-            resetGrid
+            resetGrid,
+            setGridZoom
         }}>
             {children}
         </PatternContext.Provider>
