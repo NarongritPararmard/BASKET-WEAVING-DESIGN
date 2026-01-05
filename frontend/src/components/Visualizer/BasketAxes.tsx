@@ -48,7 +48,7 @@ export default function BasketAxes({ numAxes, centerAxis, bottomRadius, topRadiu
                     <mesh key={idx} position={midway} quaternion={quaternion}>
                         <cylinderGeometry args={[0.12, 0.12, direction.length(), 8]} />
                         <meshStandardMaterial
-                            color={idx === centerAxis ? "#94a3b8" : "#475569"}
+                            color={idx === centerAxis ? "#FFB3CA" : "#E85783"}
                             emissive={idx === centerAxis ? "#64748b" : "#000000"}
                             emissiveIntensity={idx === centerAxis ? 0.4 : 0}
                             metalness={0.4}
@@ -62,7 +62,7 @@ export default function BasketAxes({ numAxes, centerAxis, bottomRadius, topRadiu
             <mesh position={[0, -0.1, 0]}>
                 <cylinderGeometry args={[bottomRadius + 0.3, bottomRadius + 0.3, 0.2, 32]} />
                 <meshStandardMaterial
-                    color="#1e293b"
+                    color="#DBAE75"
                     metalness={0.1}
                     roughness={0.9}
                 />

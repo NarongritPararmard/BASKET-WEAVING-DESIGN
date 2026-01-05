@@ -84,7 +84,7 @@ export default function WeaveRowMesh({
             <tubeGeometry args={[curve, 300, 0.04, 8, true]} />
             <meshStandardMaterial
                 ref={materialRef}
-                color={isActive ? "#f59e0b" : "#fcd34d"}
+                color={isActive ? "#f59e0b" : "#FFD093"}
                 emissive={isActive ? "#d97706" : "#000000"}
                 emissiveIntensity={isActive ? 0.5 : 0}
                 transparent={isDimmed}
