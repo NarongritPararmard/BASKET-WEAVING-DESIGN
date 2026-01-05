@@ -25,12 +25,13 @@ export default function PatternGrid() {
 
             <GridHeader numAxes={state.numAxes} centerAxis={centerAxis} />
 
-            <div className="flex flex-col-reverse gap-0 ml-10">
+            <div className="flex flex-col-reverse gap-0 ml-8 md:ml-10">
                 {state.grid.map((row, rowIndex) => (
                     <div key={rowIndex} className="flex gap-0 group">
-                        <span className="w-8 -ml-10 flex items-center justify-end pr-2 text-xs text-slate-500 font-mono">
+                        <span className="w-8 -ml-8 md:-ml-10 flex items-center justify-end pr-2 text-[10px] md:text-xs text-slate-500 font-mono">
                             R{rowIndex + 1}
                         </span>
+
                         {row.map((active, colIndex) => (
                             <GridCell
                                 key={colIndex}
