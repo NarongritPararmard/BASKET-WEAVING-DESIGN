@@ -13,15 +13,16 @@ export default function GridHeader({ numAxes, centerAxis }: GridHeaderProps) {
     };
 
     return (
-        <div className="flex gap-0 mb-2 ml-10">
+        <div className="flex gap-0 mb-2 ml-8 md:ml-10">
             {Array.from({ length: numAxes }).map((_, i) => (
                 <div
                     key={i}
                     className={`
-            w-8 text-center text-[10px] font-mono flex flex-col items-center
+            w-6 md:w-8 text-center text-[8px] md:text-[10px] font-mono flex flex-col items-center
             ${i === centerAxis ? 'text-amber-400 font-bold' : 'text-slate-500'}
           `}
                 >
+
 
                     <span>{getLabel(i)}</span>
                     {i !== centerAxis && (
