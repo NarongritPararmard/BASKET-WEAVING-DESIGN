@@ -12,6 +12,7 @@ interface PatternContextType {
     setRowStatus: (row: number, status: RowStatus) => void;
     setCurrentRow: (row: number) => void;
     setWeavingMode: (enabled: boolean) => void;
+    resetGrid: () => void;
 }
 
 const PatternContext = createContext<PatternContextType | undefined>(undefined);
@@ -46,8 +47,8 @@ export function PatternProvider({ children }: { children: ReactNode }) {
 
     const setNumRows = (num: number) => {
         setState(prev => {
-            let newGrid = [...prev.grid];
-            let newStatuses = [...prev.rowStatuses];
+            const newGrid = [...prev.grid];
+            const newStatuses = [...prev.rowStatuses];
             if (num > prev.grid.length) {
                 while (newGrid.length < num) {
                     newGrid.push(Array(prev.numAxes).fill(false));
@@ -86,6 +87,13 @@ export function PatternProvider({ children }: { children: ReactNode }) {
         setState(prev => ({ ...prev, isWeavingMode: enabled }));
     };
 
+    const resetGrid = () => {
+        setState(prev => ({
+            ...prev,
+            grid: createEmptyGrid(prev.numRows, prev.numAxes)
+        }));
+    };
+
     return (
         <PatternContext.Provider value={{
             state,
@@ -94,7 +102,8 @@ export function PatternProvider({ children }: { children: ReactNode }) {
             toggleCell,
             setRowStatus,
             setCurrentRow,
-            setWeavingMode
+            setWeavingMode,
+            resetGrid
         }}>
             {children}
         </PatternContext.Provider>

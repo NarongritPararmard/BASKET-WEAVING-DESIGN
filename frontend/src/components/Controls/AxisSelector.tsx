@@ -13,7 +13,7 @@ export default function AxisSelector() {
                     type="range"
                     min="4"
                     max="48"
-                    step="2"
+                    step="1"
                     value={state.numAxes}
                     onChange={(e) => setNumAxes(parseInt(e.target.value))}
                     className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-indigo-500"

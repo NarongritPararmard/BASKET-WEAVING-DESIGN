@@ -6,15 +6,27 @@ import PatternGrid from '../components/Grid/PatternGrid';
 import AxisSelector from '../components/Controls/AxisSelector';
 import RowSelector from '../components/Controls/RowSelector';
 import BasketScene from '../components/Visualizer/BasketScene';
+import { useState } from 'react';
 
 
 export default function Home() {
-  const { setWeavingMode } = usePatternStore();
+  const { setWeavingMode, resetGrid } = usePatternStore();
+  const [showConfirm, setShowConfirm] = useState(false);
   const router = useRouter();
 
   const handleStartWeaving = () => {
+    setShowConfirm(true);
+  };
+
+  const confirmWeaving = () => {
     setWeavingMode(true);
     router.push('/weave');
+  };
+
+  const handleReset = () => {
+    if (confirm('คุณต้องการลบลวดลายทั้งหมดใช่หรือไม่?')) {
+      resetGrid();
+    }
   };
 
   return (
@@ -45,8 +57,19 @@ export default function Home() {
               <li>คอลัมน์คือแกนแนวตั้ง (ตอกยืน)</li>
               <li>แถวคือรอบการสานจากล่างขึ้นบน</li>
               <li>ช่องที่ระบายสีหมายถึงเส้นสานจะทับหน้าแกนตั้ง</li>
+              <li className="text-indigo-400 font-semibold">แนะนำ: เริ่มสานจากแกนกลาง (C) ออกไปข้างๆ เพื่อความสมดุล</li>
             </ul>
           </div>
+
+          <button
+            onClick={handleReset}
+            className="w-full py-4 px-6 bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 rounded-2xl font-bold transition-all duration-300 flex items-center justify-center gap-2 group"
+          >
+            <svg className="w-5 h-5 group-hover:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            </svg>
+            ลบลวดลายทั้งหมด
+          </button>
         </aside>
 
         {/* Design Area */}
@@ -81,6 +104,32 @@ export default function Home() {
       <footer className="mt-20 py-8 border-t border-slate-900 text-center text-slate-600 text-sm">
         <p>เครื่องมือช่วยเรียนรู้ศิลปหัตถกรรมไทย สำหรับระดับชั้นมัธยมศึกษาปีที่ 5</p>
       </footer>
+
+      {/* Confirmation Modal */}
+      {showConfirm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm animate-in fade-in duration-300">
+          <div className="bg-slate-900 border border-slate-800 p-8 rounded-3xl max-w-md w-full shadow-2xl animate-in zoom-in-95 duration-300">
+            <h3 className="text-2xl font-bold text-white mb-4">ยืนยันการสร้างลวดลาย?</h3>
+            <p className="text-slate-400 mb-8">
+              เมื่อยืนยันแล้ว ระบบจะสลับไปยังโหมดช่วยสานจริง ซึ่งจะแสดงขั้นตอนการขัดตอกในแต่ละรอบ
+            </p>
+            <div className="flex gap-4">
+              <button
+                onClick={() => setShowConfirm(false)}
+                className="flex-1 py-4 px-6 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-2xl transition-all"
+              >
+                ย้อนกลับ
+              </button>
+              <button
+                onClick={confirmWeaving}
+                className="flex-1 py-4 px-6 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-2xl transition-all shadow-[0_0_20px_rgba(79,70,229,0.3)]"
+              >
+                ยืนยันและเริ่มสาน
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
